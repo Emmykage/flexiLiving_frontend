@@ -63,10 +63,7 @@ export function PropertyPage({ listing }) {
           {listing.reviews
             .filter((r) => r.approved)
             .map((review) => (
-              <Card
-                key={review.id}
-                className="shadow p-4 rounded-xl bg-white"
-              >
+              <Card key={review.id} className="shadow p-4 rounded-xl bg-white">
                 <h3 className="font-semibold text-lg">{review.guestName}</h3>
                 <p className="text-gray-600 mt-2">{review.comment}</p>
                 <div className="flex items-center gap-1 mt-3">

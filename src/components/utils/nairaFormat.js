@@ -1,16 +1,19 @@
-const nairaFormat = (amount, currency = 'USD') => {
+const nairaFormat = (amount, currency = "USD") => {
   try {
-    const curr = new Intl.NumberFormat('en-NG', {
-      style: 'currency',
+    const curr = new Intl.NumberFormat("en-NG", {
+      style: "currency",
       currency: currency,
-      currencyDisplay: 'narrowSymbol',
-    })
+      currencyDisplay: "narrowSymbol",
+    });
 
-    return curr.format(amount)
+    return curr.format(amount);
   } catch (error) {
-    console.error(`Invalid currency code: ${currency}. Defaulting to NGN.`, error)
-    return `${currency?.toUpperCase()} ${amount?.toFixed(2) ?? '0.00'}`
+    console.error(
+      `Invalid currency code: ${currency}. Defaulting to NGN.`,
+      error,
+    );
+    return `${currency?.toUpperCase()} ${amount?.toFixed(2) ?? "0.00"}`;
   }
-}
+};
 
-export { nairaFormat }
+export { nairaFormat };

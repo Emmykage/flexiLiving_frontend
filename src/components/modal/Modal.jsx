@@ -1,8 +1,8 @@
-import { Modal } from 'antd'
+import { Modal } from "antd";
 const AppModal = ({ children, isModalOpen, setIsModalOpen, handleCancel }) => {
   const handleOk = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -21,6 +21,6 @@ const AppModal = ({ children, isModalOpen, setIsModalOpen, handleCancel }) => {
         {children}
       </Modal>
     </>
-  )
-}
-export default AppModal
+  );
+};
+export default AppModal;

@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { getAccessToken, logOut } from '../../redux/auth/authReducer'
-import { Spin } from 'antd'
-import { MenuOutlined, CloseOutlined } from '@ant-design/icons'
-import LoginSetUp from '../loginSetUp/LoginSetUp'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { getAccessToken, logOut } from "../../redux/auth/authReducer";
+import { Spin } from "antd";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
+import LoginSetUp from "../loginSetUp/LoginSetUp";
 
 const Nav = () => {
-  const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch()
-  const { accessToken } = useSelector((state) => state.auth)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector((state) => state.auth);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getAccessToken())
-  }, [dispatch])
+    dispatch(getAccessToken());
+  }, [dispatch]);
 
   const handleLogout = () => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
-      dispatch(logOut())
-      setLoading(false)
-    }, 3000)
-  }
+      dispatch(logOut());
+      setLoading(false);
+    }, 3000);
+  };
 
   return (
     <>
       <header className="bg-white shadow-md sticky top-0 z-10">
         <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-          <NavLink to={'/'}>
+          <NavLink to={"/"}>
             <h1 className="text-2xl font-bold text-blue-600">WarrantyIT</h1>
           </NavLink>
 
@@ -42,8 +42,11 @@ const Nav = () => {
             </NavLink>
 
             {accessToken ? (
-              <button onClick={handleLogout} className="hover:text-blue-600 transition">
-                {loading ? <Spin size="small" /> : 'Log Out'}
+              <button
+                onClick={handleLogout}
+                className="hover:text-blue-600 transition"
+              >
+                {loading ? <Spin size="small" /> : "Log Out"}
               </button>
             ) : (
               <button
@@ -55,7 +58,10 @@ const Nav = () => {
             )}
           </nav>
 
-          <button className="md:hidden text-2xl text-gray-700" onClick={() => setIsOpen(!isOpen)}>
+          <button
+            className="md:hidden text-2xl text-gray-700"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? <CloseOutlined /> : <MenuOutlined />}
           </button>
         </div>
@@ -80,18 +86,18 @@ const Nav = () => {
             {accessToken ? (
               <button
                 onClick={() => {
-                  handleLogout()
-                  setIsOpen(false)
+                  handleLogout();
+                  setIsOpen(false);
                 }}
                 className="block hover:text-blue-600 transition w-full text-left"
               >
-                {loading ? <Spin size="small" /> : 'Log Out'}
+                {loading ? <Spin size="small" /> : "Log Out"}
               </button>
             ) : (
               <button
                 onClick={() => {
-                  setIsModalOpen(true)
-                  setIsOpen(false)
+                  setIsModalOpen(true);
+                  setIsOpen(false);
                 }}
                 className="block hover:text-blue-600 transition w-full text-left"
               >
@@ -104,7 +110,7 @@ const Nav = () => {
 
       <LoginSetUp setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
     </>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
