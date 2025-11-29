@@ -1,0 +1,99 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getReviews } from "../../redux/actions/reviews";
+import DashboardHeader from "../../components/dashboardHeader/dashboardHeader";
+
+export default function AdminDashboard() {
+  const [properties, setProperties] = useState([]);
+  const dispatch = useDispatch();
+
+  const { reviews, listing } = useSelector((state) => state.reviews);
+
+  const [search, setSearch] = useState("");
+  const [filteredReviews, setFilteredReviews] = useState([]);
+
+  useEffect(() => {
+    dispatch(getReviews());
+  }, []);
+  console.log(reviews, listing);
+
+  return (
+    <div className="flex">
+      <div className="flex-1 p-6 bg-gray-50 min-h-screen">
+        <DashboardHeader title="Admin Dashboard" />
+
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search properties..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full p-2 rounded border border-gray-300"
+          />
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {listing.map((p) => (
+            <PropertyCard key={p.id} property={p} onView={() => {}} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const ReviewCard = ({ review, onToggle }) => {
+  return (
+    <div className="p-4 mb-4 bg-white rounded-xl shadow flex justify-between items-center">
+      <div>
+        <p className="font-semibold">{review.reviewer}</p>
+        <p className="text-gray-600">{review.review}</p>
+        <p className="text-gray-500 text-sm">Rating: {review.rating}</p>
+      </div>
+      <button
+        onClick={() => onToggle(review.id)}
+        className={`p-2 rounded ${review.public ? "bg-green-500 text-white" : "bg-gray-200"}`}
+      >
+        {review.public ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+      </button>
+    </div>
+  );
+};
+
+const PropertyCard = ({ property, onView }) => {
+  const avgRating =
+    property.reviews.reduce((sum, r) => sum + (r.rating ?? 0), 0) /
+    property.reviews.length;
+
+  const reviewCount = property.reviews.length;
+  const categoryScores = {};
+  property.reviews.forEach((r) => {
+    Object.entries(r.categories || {}).forEach(([cat, rating]) => {
+      if (!categoryScores[cat]) categoryScores[cat] = [];
+      categoryScores[cat].push(rating);
+    });
+  });
+
+  const avgCategoryScores = Object.fromEntries(
+    Object.entries(categoryScores).map(([cat, ratings]) => [
+      cat,
+      ratings.reduce((sum, r) => sum + r, 0) / ratings.length,
+    ]),
+  );
+
+  console.log(avgRating, categoryScores, avgCategoryScores);
+
+  return (
+    <div className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition flex flex-col justify-between">
+      <h2 className="text-xl font-semibold">{property.listingName}</h2>
+      <p className="text-gray-600 mt-1">
+        Reviews: Avg Rating: {avgRating.toFixed(1)}
+      </p>
+      <button
+        onClick={() => onView(property)}
+        className="mt-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+      >
+        View Details
+      </button>
+    </div>
+  );
+};

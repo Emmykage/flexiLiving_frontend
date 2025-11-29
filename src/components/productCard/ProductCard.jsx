@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  console.log(product);
 
   return (
     <div
@@ -11,22 +12,17 @@ const ProductCard = ({ product }) => {
       className="bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-xl transition"
     >
       <img
-        src={product.image_url}
-        alt={product.name}
+        src={product?.image_urls?.[0]}
+        alt={product?.listingName}
         className="w-full h-48 object-cover"
       />
       <div className="p-5">
-        <h4 className="text-xl font-semibold text-gray-800">{product.name}</h4>
-        <p className="text-gray-500 text-sm mb-2">{product.brand}</p>
-        <p className="text-gray-600 mb-1">Type: {product.type}</p>
-        <p className="text-gray-600 mb-1">
-          Warranty: {product.warranty} Months
-        </p>
-        <p className="text-blue-600 font-bold text-lg mb-4">
-          {nairaFormat(Number(product?.price || 0))}
-        </p>
+        <h4 className="text-xl font-semibold text-gray-800">
+          {product?.listingName}
+        </h4>
+
         <button
-          onClick={() => navigate(`/product-details/${product.id}`)}
+          onClick={() => navigate(`/properties/${product?.listingId}`)}
           className="w-full bg-[#2F855A] text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition"
         >
           View Details

@@ -2,14 +2,13 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Home from "./pages/admin/Home";
-import { PropertyPage } from "./pages/admin/Reviews";
-import Properties from "./pages/admin/Properties";
+import ReviewsPage from "./pages/admin/reviewsPage";
 import AdminProperties from "./pages/admin/Properties";
 import LandingHome from "./pages/user/home/Home";
 import PropertyDetails from "./pages/user/propertyDetails/PropertyDetails";
 import AdminPropertyDetails from "./pages/admin/propertyDetails";
 import ReviewDetails from "./pages/admin/ReviewsDetails";
-// import
+
 function App() {
   return (
     <>
@@ -26,7 +25,7 @@ function App() {
           path="/admin/reviews"
           element={
             <Layout>
-              <PropertyPage />
+              <ReviewsPage />
             </Layout>
           }
         />
@@ -46,14 +45,7 @@ function App() {
             </Layout>
           }
         />
-        <Route
-          path="/admin/properties/:id"
-          element={
-            <Layout>
-              <AdminPropertyDetails />
-            </Layout>
-          }
-        />
+        <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/" element={<LandingHome />} />
         <Route path="/admin/details/:id" element={<AdminPropertyDetails />} />
       </Routes>

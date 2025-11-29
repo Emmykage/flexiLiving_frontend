@@ -3,6 +3,7 @@ import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getReviews } from "../../redux/actions/reviews";
+import { togglePublicReview } from "../../redux/reviews/reviewsReducers";
 
 const ReviewDetails = () => {
   const { reviews } = useSelector((state) => state.reviews);
@@ -17,8 +18,7 @@ const ReviewDetails = () => {
   const [isPublic, setIsPublic] = useState(review?.isPublic || false);
 
   const togglePublic = () => {
-    setIsPublic(!isPublic);
-    // TODO: call backend API to save status
+    dispatch(togglePublicReview(id));
     console.log(
       `Review ID ${review.id} is now ${!isPublic ? "public" : "private"}`,
     );
@@ -34,13 +34,13 @@ const ReviewDetails = () => {
         <button
           onClick={togglePublic}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-300 ${
-            isPublic
+            review?.status === "published"
               ? "bg-green-500 hover:bg-green-600"
               : "bg-gray-400 hover:bg-gray-500"
           }`}
         >
-          {isPublic ? <FiCheckCircle /> : <FiXCircle />}
-          {isPublic ? "Public" : "Private"}
+          {review?.status === "published" ? <FiCheckCircle /> : <FiXCircle />}
+          {review?.status === "published" ? "Public" : "Private"}
         </button>
       </div>
 

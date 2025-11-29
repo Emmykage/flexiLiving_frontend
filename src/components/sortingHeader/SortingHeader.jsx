@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SortingHeader = ({ onFilterChange }) => {
   const [rating, setRating] = useState("");
@@ -10,7 +10,6 @@ const SortingHeader = ({ onFilterChange }) => {
   };
   return (
     <div className="bg-white p-4 rounded-xl shadow flex flex-wrap gap-4 items-end mb-6">
-      {/* Rating */}
       <div className="flex flex-col">
         <label className="text-gray-700 font-semibold">Rating</label>
         <select
@@ -38,7 +37,7 @@ const SortingHeader = ({ onFilterChange }) => {
           value={category}
           onChange={(e) => {
             setCategory(e.target.value);
-            handleFilterChange();
+            handleChange();
           }}
         >
           <option value="">All</option>
@@ -56,7 +55,7 @@ const SortingHeader = ({ onFilterChange }) => {
           value={channel}
           onChange={(e) => {
             setChannel(e.target.value);
-            handleFilterChange();
+            handleChange();
           }}
         >
           <option value="">All</option>
@@ -73,7 +72,7 @@ const SortingHeader = ({ onFilterChange }) => {
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
-            handleFilterChange();
+            handleChange();
           }}
         >
           <option value="">All</option>
