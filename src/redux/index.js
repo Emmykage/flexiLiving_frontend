@@ -1,2 +1,1 @@
-export { default as AuthReducer } from "./auth/authReducer";
-export { default as ProductReducer } from "./product/productReducer";
+export { default as reviewReducers } from "./reviews/reviewsReducers";

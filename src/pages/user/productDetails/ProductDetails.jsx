@@ -1,144 +1,81 @@
-import { useParams, useNavigate } from "react-router-dom"; // if using React Router
 import { useEffect, useState } from "react";
-import Nav from "../../components/header/Nav";
-import AppModal from "../../components/modal/Modal";
-import { useDispatch, useSelector } from "react-redux";
-import { delProduct, getProduct } from "../../redux/actions/product";
-import ProductForm from "../productForm/ProductForm";
-import dateFormater from "../../utils/dateFormat";
-import { nairaFormat } from "../../utils/nairaFormat";
-import Loader from "../../components/loader/Loader";
 
-export default function ProductDetail() {
-  const { id } = useParams(); // product id from route
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { accessToken } = useSelector((state) => state.auth);
+export default function PublicReviewDisplay() {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const { product, loading } = useSelector((state) => state.products);
-  const [delLoading, setDelLoading] = useState(false);
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProduct(id));
+    fetch("http://localhost:5000/api/reviews")
+      .then((res) => res.json())
+      .then((data) => {
+        setReviews(data.data || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
-  const handleDel = () => {
-    setDelLoading(true);
-    dispatch(delProduct(id))
-      .unwrap()
-      .then(() => {
-        setTimeout(() => {
-          setDelLoading(false);
-          navigate("/");
-        }, 1200);
-      })
-      .catch(() => {
-        setDelLoading(false);
-      });
-  };
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center text-xl">
+        Loading reviews...
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className="min-h-screen  bg-background ">
-        {loading ? (
-          <h2 className="flex justify-center h-96 items-center">
-            {" "}
-            <Loader size="large" />
-          </h2>
-        ) : (
-          <div className="max-w-4xl mx-auto bg-surface mt-10 shadow-lg rounded-2xl overflow-hidden">
-            <img
-              src={product?.image_url}
-              alt={product?.name}
-              className="w-full h-72 object-cover"
-            />
+    <div className="max-w-4xl mx-auto px-4 py-10">
+      <h1 className="text-4xl font-semibold text-gray-800 mb-10">
+        Guest Reviews
+      </h1>
 
-            <div className="p-6">
-              <h1 className="text-3xl font-bold text-primary mb-2">
-                {product?.name}
-              </h1>
-              <p className="text-text-muted mb-4">{product?.brand}</p>
+      {reviews.length === 0 && (
+        <p className="text-gray-500 text-center">No reviews available.</p>
+      )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <p className="font-semibold text-text">Type:</p>
-                  <p className="text-text-muted">{product?.type}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-text">Warranty:</p>
-                  <p className="text-text-muted">{product?.warranty}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-text">Start Date:</p>
-                  <p className="text-text-muted">
-                    {dateFormater(product?.startdate)}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-semibold text-text">Serial Number:</p>
-                  <p className="text-text-muted">{product?.serialnumber}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-text">Price:</p>
-                  <p className="text-text-muted">
-                    {nairaFormat(product?.price)}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-semibold text-text">Status:</p>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      product?.status === "active"
-                        ? "bg-success/20 text-success"
-                        : product?.status === "expiring"
-                          ? " text-warning"
-                          : "text-error"
-                    }`}
-                  >
-                    {product?.status?.toUpperCase()}
-                  </span>
-                </div>
+      <div className="space-y-6">
+        {reviews.map((review) => (
+          <div
+            key={review.id}
+            className="bg-white border shadow-sm rounded-xl p-6"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {review.reviewer}
+                </h2>
+                <p className="text-sm text-gray-500">{review.channel}</p>
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-4">
-                <button
-                  onClick={() => navigate(-1)}
-                  className="bg-gray-200 text-text px-4 py-2 rounded-lg hover:bg-gray-300 transition"
-                >
-                  ← Back
-                </button>
-                {accessToken && (
-                  <>
-                    <button
-                      onClick={() => {
-                        setIsModalOpen(true);
-                      }}
-                      className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition"
-                    >
-                      Edit Product
-                    </button>
-                    <button
-                      onClick={handleDel}
-                      className="bg-error bg-red-900 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
-                    >
-                      {delLoading ? "deleting..." : "Delete Product"}
-                    </button>
-                  </>
-                )}
-              </div>
+              {/* Rating */}
+              <span className="text-yellow-500 text-lg font-semibold">
+                ⭐ {review.rating ?? "N/A"}
+              </span>
             </div>
-          </div>
-        )}
-      </div>
 
-      <AppModal
-        isModalOpen={isModalOpen}
-        handleCancel={() => {}}
-        setIsModalOpen={setIsModalOpen}
-      >
-        <ProductForm product={product} setIsModalOpen={setIsModalOpen} />
-      </AppModal>
-    </>
+            {/* Body */}
+            <p className="mt-4 text-gray-700">{review.review}</p>
+
+            {/* Date */}
+            <p className="mt-3 text-sm text-gray-500">{review.date}</p>
+
+            {/* Categories */}
+            {review.categories && Object.keys(review.categories).length > 0 && (
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                {Object.entries(review.categories).map(([cat, rating]) => (
+                  <div
+                    key={cat}
+                    className="bg-gray-50 border rounded-lg p-3 text-sm flex items-center justify-between"
+                  >
+                    <span className="text-gray-600 capitalize">{cat}</span>
+                    <span className="font-medium">⭐ {rating}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

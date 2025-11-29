@@ -8,13 +8,12 @@ import { useState } from "react";
 
 const LoginSetUp = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
+  // const { products } = useSelector((state) => state.products);
 
   const [loading, setLoading] = useState(false);
 
   const [isLogin, setIsLogin] = useState(true);
 
-  console.log("[Products] fetched", products);
   const handleLogin = (values) => {
     setLoading(true);
     dispatch(loginUser(values))

@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { getProducts } from '../../redux/actions/product'
-import { getProducts } from "../../../redux/actions/product";
 import LoginSetUp from "../../../components/loginSetUp/LoginSetUp";
-// import Loader from '../../../../components/loader/Loader'
 import ProductCard from "../../../components/productCard/ProductCard";
 import Loader from "../../../components/loader/Loader";
 
 const LandingHome = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { products, loading } = useSelector((state) => state.products);
+  const { reviews, loading } = useSelector((state) => state.reviews);
 
-  const { accessToken } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+  const accessToken = "";
 
   const toggleAction = () => {
     if (!accessToken) {
@@ -54,21 +46,21 @@ const LandingHome = () => {
             onClick={toggleAction}
             className="bg-primary -600 text-white px-5 my-4 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
           >
-            {accessToken ? "+ Create Product" : "Login To Create Product"}
+            {/* {accessToken ? "+ Create Product" : "Login To Create Product"} */}
           </button>
           <div>
             {loading ? (
               <div className="flex justify-center py-10">
                 <Loader size="large" />
               </div>
-            ) : products.length === 0 ? (
+            ) : reviews.length === 0 ? (
               <h3 className="text-center text-3xl font-bold">
                 No Item has been added
               </h3>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {products.map((product) => (
-                  <ProductCard product={product} />
+                {reviews.map((review) => (
+                  <ProductCard product={review} />
                 ))}
               </div>
             )}

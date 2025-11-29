@@ -9,53 +9,30 @@ import LoginSetUp from "../loginSetUp/LoginSetUp";
 const Nav = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    dispatch(getAccessToken());
-  }, [dispatch]);
-
-  const handleLogout = () => {
-    setLoading(true);
-    setTimeout(() => {
-      dispatch(logOut());
-      setLoading(false);
-    }, 3000);
-  };
-
   return (
     <>
-      <header className="bg-white shadow-md sticky top-0 z-10">
+      <header className="bg-white shadow-md sticky top-0 py-4 z-10">
         <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
           <NavLink to={"/"}>
-            <h1 className="text-2xl font-bold text-blue-600">WarrantyIT</h1>
+            <h1 className="text-2xl font-bold text-blue-600">The Flex</h1>
           </NavLink>
 
-          <nav className="hidden md:flex space-x-6 text-gray-700 font-medium">
+          <nav className="hidden md:flex space-x-6 text-gray-700 flex-1  justify-center font-medium">
             <NavLink to="/" className="hover:text-blue-600 transition">
               Home
             </NavLink>
             <NavLink to="/products" className="hover:text-blue-600 transition">
-              Products
+              About Us
+            </NavLink>{" "}
+            <NavLink to="/products" className="hover:text-blue-600 transition">
+              Careers
+            </NavLink>{" "}
+            <NavLink to="/products" className="hover:text-blue-600 transition">
+              Contact
             </NavLink>
-
-            {accessToken ? (
-              <button
-                onClick={handleLogout}
-                className="hover:text-blue-600 transition"
-              >
-                {loading ? <Spin size="small" /> : "Log Out"}
-              </button>
-            ) : (
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="hover:text-blue-600 transition"
-              >
-                Log In
-              </button>
-            )}
           </nav>
 
           <button

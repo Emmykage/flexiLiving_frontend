@@ -1,47 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-// import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import axios from "axios";
 import Card from "../../components/ui/Card";
 import { CardContent } from "../../components/ui/CardContent";
 
 const Properties = () => {
-  const [listings, setListings] = useState([]);
+  //   const [listings, setListings] = useState([]);
 
-  useEffect(() => {
-    axios.get("/api/reviews/hostaway").then((res) => {
-      setListings(res.data.listings || []);
-    });
-  }, []);
+  const listings = [
+    {
+      id: "2B-N1-A",
+      name: "2B N1 A - 29 Shoreditch Heights",
+      reviews: 12,
+      avgRating: 4.8,
+    },
+    {
+      id: "3C-2B-B",
+      name: "3C 2B - Modern Studio Flat",
+      reviews: 8,
+      avgRating: 4.5,
+    },
+  ];
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold mb-4">Manager Properies</h1>
+      <h1 className="text-3xl font-bold mb-4">Manager Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {listings.map((listing) => (
-          <motion.div
-            key={listing.id}
-            whileHover={{ scale: 1.02 }}
-            className="cursor-pointer"
-          >
-            <Card className="shadow-lg rounded-2xl p-4">
-              <CardContent>
-                <h2 className="text-xl font-semibold">{listing.name}</h2>
-                <div className="flex items-center gap-2 mt-2">
-                  <Star className="w-5 h-5" />
-                  <span className="text-lg font-semibold">
-                    {listing.averageRating || "N/A"}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500 mt-1">
-                  {listing.reviews.length} total reviews
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+      <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="grid md:grid-cols-2 gap-6">
+          {listings.map((property) => (
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              key={property.id}
+              className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+            >
+              <h2 className="text-xl font-semibold">{property.name}</h2>
+              <p className="text-gray-600 mt-2">
+                Reviews: {property.reviews} | Avg Rating: {property.avgRating}
+              </p>
+              <div className="mt-4 flex gap-4">
+                <button className="flex items-center gap-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                  View Reviews
+                </button>
+                <button className="flex items-center gap-2 bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">
+                  Edit Property
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
