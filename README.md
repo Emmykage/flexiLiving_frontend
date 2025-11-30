@@ -73,7 +73,11 @@ npm run dev
 
 Access dashboard at http://localhost:5173
 
-6. Design & Logic Decisions
+## 6. Live Demo on netlify
+
+`  `
+
+## 7. Design & Logic Decisions
 
 Normalized review data fetched from backend for easy rendering
 
