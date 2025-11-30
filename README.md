@@ -67,7 +67,9 @@ Install dependencies:
 
 npm install
 
-Start the React app:
+set BaseUrl to http://localhost:5000 for local set up to backend
+
+#### Start the React app:
 
 npm run dev
 
@@ -75,7 +77,7 @@ Access dashboard at http://localhost:5173
 
 ## 6. Live Demo
 
-[Live Demo](https://flexi-living-frontend-jkddyebn7-emmykages-projects.vercel.app)
+[Live Demo Vercel](https://flexi-living-frontend-jkddyebn7-emmykages-projects.vercel.app)
 [Live Demo Netlify](https://flexliving.netlify.app/)
 
 ## 7. Design & Logic Decisions
