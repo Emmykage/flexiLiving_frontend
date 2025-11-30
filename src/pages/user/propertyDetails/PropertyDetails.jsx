@@ -63,8 +63,8 @@ const PropertyDetails = () => {
     <>
       <Nav />
       <div className="max-w-7xl mx-auto px-4 py-10 mt-4 bg-[#F1F3EE] ">
-        <div className="grid grid-cols-2 gap-4 h-[580px]">
-          <div className="rounded-tl-2xl rounded-bl-2xl 2xl h-full overflow-hidden">
+        <div className="grid md:grid-cols-2 gap-4 h-[580px]">
+          <div className="md:rounded-tl-2xl md:rounded-bl-2xl 2xl h-full overflow-hidden">
             <img
               src={details?.image_urls?.[0]}
               alt=""
@@ -85,7 +85,7 @@ const PropertyDetails = () => {
               {details?.listingName}
             </h2>
 
-            <div className="py-6 flex gap-10 border-b border-gray-300">
+            <div className="py-6 flex flex-wrap gap-10 border-b border-gray-300">
               <div className="flex items-center gap-4 ">
                 <FiUsers className="font-bold text-gray-600" />
                 <div className="text-center">
@@ -132,7 +132,7 @@ const PropertyDetails = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-6 items-start">
+        <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="flex-1">
             <div className="bg-white p-5 rounded-xl">
               <h3 className="text-gray-900 text-2xl mb-4 font-semibold">
@@ -216,7 +216,7 @@ const PropertyDetails = () => {
               </div>
             </div>
           </div>
-          <div className="w-96 rounded-3xl sticky top-32 bg-white shadow hover:shadow-none transition-all ease-in duration-200 overflow-hidden">
+          <div className="md:w-96 w-full max-w-2xl rounded-3xl sticky top-32 bg-white shadow hover:shadow-none transition-all ease-in duration-200 overflow-hidden">
             <div className="bg-green-950 p-4">
               <h3 className="text-white text-2xl">Book Your Stay</h3>
               <p className="text-gray-300 text-sm pt-3 font-semibold">
@@ -327,7 +327,7 @@ const PropertyDetails = () => {
                   {/* Categories */}
                   {review.categories &&
                     Object.keys(review.categories).length > 0 && (
-                      <div className="mt-4 grid grid-cols-2 gap-4">
+                      <div className="mt-4 grid md:grid-cols-2 gap-4">
                         {Object.entries(review.categories).map(
                           ([cat, rating]) => (
                             <div

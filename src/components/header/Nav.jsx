@@ -3,54 +3,71 @@ import { NavLink } from "react-router-dom";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 
 const Nav = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleLinkClick = () => setIsOpen(false);
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Dashboard", path: "/admin/dashboard" },
+  ];
+
   return (
-    <>
-      <header className="bg-white shadow-md sticky top-0 py-4 z-40">
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-          <NavLink to={"/"}>
-            <h1 className="text-2xl font-bold text-blue-600">The Flex</h1>
-          </NavLink>
+    <header className="bg-white shadow-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+        <NavLink to={"/"}>
+          <h1 className="text-2xl font-bold text-blue-600">The Flex</h1>
+        </NavLink>
 
-          <nav className="hidden md:flex space-x-6 text-gray-700 flex-1  justify-center font-medium">
-            <NavLink to="/" className="hover:text-blue-600 transition">
-              Home
-            </NavLink>
-
+        <nav className="hidden md:flex space-x-6 text-gray-700 font-medium">
+          {navLinks.map((link) => (
             <NavLink
-              to="/admin/dashboard"
+              key={link.name}
+              to={link.path}
               className="hover:text-blue-600 transition"
             >
-              Dashboard
+              {link.name}
             </NavLink>
-          </nav>
+          ))}
+        </nav>
 
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-2xl text-gray-700"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <CloseOutlined /> : <MenuOutlined />}
+        </button>
+      </div>
+
+      <div
+        className={`md:hidden fixed top-0 left-0 w-full h-full bg-white z-40 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex justify-end p-6">
           <button
-            className="md:hidden text-2xl text-gray-700"
-            onClick={() => setIsOpen(!isOpen)}
+            className="text-2xl text-gray-700"
+            onClick={() => setIsOpen(false)}
           >
-            {isOpen ? <CloseOutlined /> : <MenuOutlined />}
+            <CloseOutlined />
           </button>
         </div>
 
-        {isOpen && (
-          <div className="md:hidden bg-white border-t px-6 py-4 space-y-4 text-gray-700 font-medium">
-            <NavLink to="/" className="hover:text-blue-600 transition">
-              Home
-            </NavLink>
-
+        <nav className="flex flex-col items-center space-y-6 mt-20 text-gray-700 font-medium text-xl">
+          {navLinks.map((link) => (
             <NavLink
-              to="/admin/dashboard"
+              key={link.name}
+              to={link.path}
               className="hover:text-blue-600 transition"
+              onClick={handleLinkClick}
             >
-              Dashboard
+              {link.name}
             </NavLink>
-          </div>
-        )}
-      </header>
-    </>
+          ))}
+        </nav>
+      </div>
+    </header>
   );
 };
 
