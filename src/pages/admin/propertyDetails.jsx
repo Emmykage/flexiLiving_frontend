@@ -32,7 +32,6 @@ const AminPropertyDetails = () => {
   ];
 
   useEffect(() => {
-    // fetch reviews from backend in real scenario
     setReviews(mockReviews);
   }, []);
 

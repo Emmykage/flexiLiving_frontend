@@ -20,18 +20,11 @@ import { getReviews } from "../../../redux/actions/reviews";
 import { useParams } from "react-router-dom";
 
 const PropertyDetails = () => {
-  const dispatch = useDispatch();
   const { id } = useParams();
   const { reviews, listing, loading } = useSelector((state) => state.reviews);
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => setExpanded(!expanded);
-
-  useEffect(() => {
-    dispatch(getReviews());
-  }, []);
-
-  console.log(listing, id);
 
   const iconMap = [
     { match: "cable", icon: <PiCouch /> },

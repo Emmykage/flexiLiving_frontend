@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { getReviews } from "../../redux/actions/reviews";
-import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 import Card from "../../components/ui/Card";
 import { ArrowRight, Star } from "lucide-react";
 import SortingHeader from "../../components/sortingHeader/SortingHeader";
 
 const ReviewsPage = () => {
   const { reviews } = useSelector((state) => state.reviews);
-  const dispatch = useDispatch();
   const [filteredReviews, setFilteredReviews] = useState([]);
 
   useEffect(() => {
@@ -18,6 +16,8 @@ const ReviewsPage = () => {
 
   const handleFilterChange = ({ rating, category, channel, time }) => {
     let filtered = [...reviews];
+
+    console.log(category);
 
     if (rating)
       filtered = filtered.filter((r) => r.rating >= parseFloat(rating));
@@ -35,11 +35,6 @@ const ReviewsPage = () => {
 
     setFilteredReviews(filtered);
   };
-
-  useEffect(() => {
-    dispatch(getReviews());
-  }, []);
-  console.log(filteredReviews);
 
   return (
     <div className="p-6 space-y-6">
@@ -60,7 +55,6 @@ const ReviewsPage = () => {
 
 const CardReview = ({ review }) => {
   const navigate = useNavigate();
-  console.log(review);
 
   const categoryScores = {};
   Object.entries(review.categories || {}).forEach(([cat, rating]) => {
@@ -74,8 +68,6 @@ const CardReview = ({ review }) => {
       ratings.reduce((sum, r) => sum + r, 0) / ratings.length,
     ]),
   );
-
-  console.log(avgCategoryScores);
 
   return (
     <Card

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const SortingHeader = ({ onFilterChange }) => {
   const [rating, setRating] = useState("");
   const [category, setCategory] = useState("");
   const [channel, setChannel] = useState("");
   const [time, setTime] = useState("");
-  const handleChange = () => {
+
+  useEffect(() => {
     onFilterChange({ rating, category, channel, time });
-  };
+  }, [rating, category, channel, time]);
   return (
     <div className="bg-white p-4 rounded-xl shadow flex flex-wrap gap-4 items-end mb-6">
       <div className="flex flex-col">
@@ -37,7 +38,6 @@ const SortingHeader = ({ onFilterChange }) => {
           value={category}
           onChange={(e) => {
             setCategory(e.target.value);
-            handleChange();
           }}
         >
           <option value="">All</option>
@@ -55,7 +55,6 @@ const SortingHeader = ({ onFilterChange }) => {
           value={channel}
           onChange={(e) => {
             setChannel(e.target.value);
-            handleChange();
           }}
         >
           <option value="">All</option>
@@ -72,7 +71,6 @@ const SortingHeader = ({ onFilterChange }) => {
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
-            handleChange();
           }}
         >
           <option value="">All</option>

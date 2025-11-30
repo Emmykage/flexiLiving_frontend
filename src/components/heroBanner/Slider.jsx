@@ -7,7 +7,7 @@ import { PiOfficeChairBold } from "react-icons/pi";
 
 const Slider = () => {
   return (
-    <div className=" h-[600px] z-50 relative hero-banner w-full">
+    <div className=" h-[600px] z-50 relative hero-banner bg-center bg-cover w-full  bg-[url('/background/Hero_Desktop_Large.webp')]">
       <div className="bg-green-50/30 h-full z-50 w-full absolute flex transition-all duration-300 ease-in-out justify-center items-center">
         <div className="bg-white mx-4 shadow rounded md:w-1/2 min-h-40 py-8 px-5 ">
           <div className="flex items-center gap-4 search-feat ">
@@ -68,17 +68,7 @@ const Slider = () => {
           </div>
         </div>
       </div>
-      <div className="slider flex relative">
-        <div className="slide slide-1 w-full flex justify-center items-center">
-          <div className="bg-black/20 px-3 py-2 rounded text-center text-white"></div>
-        </div>
-
-        <div className="slide slide-2 w-full flex justify-center items-center"></div>
-
-        <div className="slide slide-3 w-full flex justify-center items-center"></div>
-        <div className="slide slide-4 w-full flex justify-center items-center"></div>
-        <div className="slide slide-5 w-full flex justify-center items-center"></div>
-      </div>
+      <div className="flex relative"></div>
     </div>
   );
 };

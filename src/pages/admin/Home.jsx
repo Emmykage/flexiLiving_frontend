@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReviews } from "../../redux/actions/reviews";
 import DashboardHeader from "../../components/dashboardHeader/dashboardHeader";
+import Button from "../../components/ui/Button";
 
 export default function AdminDashboard() {
   const [properties, setProperties] = useState([]);
@@ -11,11 +11,6 @@ export default function AdminDashboard() {
 
   const [search, setSearch] = useState("");
   const [filteredReviews, setFilteredReviews] = useState([]);
-
-  useEffect(() => {
-    dispatch(getReviews());
-  }, []);
-  console.log(reviews, listing);
 
   return (
     <div className="flex">
@@ -60,6 +55,7 @@ const ReviewCard = ({ review, onToggle }) => {
 };
 
 const PropertyCard = ({ property, onView }) => {
+  const { image_urls, listingName, reviews } = property;
   const avgRating =
     property.reviews.reduce((sum, r) => sum + (r.rating ?? 0), 0) /
     property.reviews.length;
@@ -80,20 +76,36 @@ const PropertyCard = ({ property, onView }) => {
     ]),
   );
 
-  console.log(avgRating, categoryScores, avgCategoryScores);
-
   return (
     <div className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition flex flex-col justify-between">
-      <h2 className="text-xl font-semibold">{property.listingName}</h2>
-      <p className="text-gray-600 mt-1">
-        Reviews: Avg Rating: {avgRating.toFixed(1)}
-      </p>
-      <button
-        onClick={() => onView(property)}
-        className="mt-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-      >
-        View Details
-      </button>
+      <div className="h-52 w-full overflow-hidden">
+        <img
+          src={image_urls?.[0] || "https://via.placeholder.com/300x200"}
+          alt={listingName}
+          className="w-full h-full object-cover hover:scale-105 transition"
+        />
+      </div>
+
+      {/* CONTENT */}
+      <div className="p-5 space-y-3">
+        {/* TITLE */}
+        <h3 className="text-xl font-bold text-gray-900">{listingName}</h3>
+        {/* RATING */}
+        <div className="flex items-center gap-2">
+          <div className="flex text-yellow-400">
+            {Array.from({ length: 5 }, (_, i) => (
+              <span key={i}>{i < Math.round(avgRating) ? "★" : "☆"}</span>
+            ))}
+          </div>
+          <p className="text-gray-600 text-sm">
+            {avgRating.toFixed(1)} • {reviews.length} reviews
+          </p>
+        </div>
+        {/* BUTTON */}
+        <Button onClick={() => onView(property)} className="mt-4">
+          View Details
+        </Button>{" "}
+      </div>
     </div>
   );
 };

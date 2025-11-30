@@ -12,19 +12,9 @@ const ReviewDetails = () => {
 
   const review = reviews.find((rev) => rev.id == id);
 
-  useEffect(() => {
-    dispatch(getReviews());
-  }, []);
-  const [isPublic, setIsPublic] = useState(review?.isPublic || false);
-
   const togglePublic = () => {
     dispatch(togglePublicReview(id));
-    console.log(
-      `Review ID ${review.id} is now ${!isPublic ? "public" : "private"}`,
-    );
   };
-
-  console.log(review);
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg mt-10">

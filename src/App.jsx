@@ -8,8 +8,16 @@ import LandingHome from "./pages/user/home/Home";
 import PropertyDetails from "./pages/user/propertyDetails/PropertyDetails";
 import AdminPropertyDetails from "./pages/admin/propertyDetails";
 import ReviewDetails from "./pages/admin/ReviewsDetails";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getReviews } from "./redux/actions/reviews";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getReviews());
+  }, []);
   return (
     <>
       <Routes>
