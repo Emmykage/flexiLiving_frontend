@@ -1,13 +1,11 @@
-import React from "react";
 import "./slider.scss";
-import { NavLink } from "react-router-dom";
 import { SiWorldhealthorganization } from "react-icons/si";
 import { FaUsersCog } from "react-icons/fa";
 import { PiOfficeChairBold } from "react-icons/pi";
 
 const Slider = () => {
   return (
-    <div className=" h-[600px] z-50 relative hero-banner bg-center bg-cover w-full  bg-[url('/background/Hero_Desktop_Large.webp')]">
+    <div className=" h-[600px] z-20 relative hero-banner bg-center bg-cover w-full  bg-[url('/background/Hero_Desktop_Large.webp')]">
       <div className="bg-green-50/30 h-full z-50 w-full absolute flex transition-all duration-300 ease-in-out justify-center items-center">
         <div className="bg-white mx-4 shadow rounded md:w-1/2 min-h-40 py-8 px-5 ">
           <div className="flex items-center gap-4 search-feat ">
