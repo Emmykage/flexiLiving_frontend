@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { getAccessToken, logOut } from "../../redux/auth/authReducer";
-import { Spin } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import LoginSetUp from "../loginSetUp/LoginSetUp";
 
 const Nav = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,8 +50,6 @@ const Nav = () => {
           </div>
         )}
       </header>
-
-      <LoginSetUp setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
     </>
   );
 };

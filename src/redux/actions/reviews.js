@@ -6,7 +6,7 @@ export const getReviews = createAsyncThunk(
   "GET_REVIEWS",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseUrl + apiRoute}reviews`);
+      const response = await axios.get(`${baseUrl + apiRoute}reviews/hostaway`);
       const result = response.data;
 
       console.log(result, "[Get product]");
