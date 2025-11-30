@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# Flex Living Reviews Dashboard - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Project Overview
 
-Currently, two official plugins are available:
+The frontend is a **React-based dashboard** for managers to view, filter, and analyze property reviews. It displays normalized review data, property performance metrics, and allows managers to approve which reviews are visible on the public website.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 2. Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React.js** (functional components & hooks)
+- **Redux Toolkit** (state management)
+- **Tailwind CSS** (UI styling)
+- **React Router v6** (routing)
+- **Axios / Fetch API** (data fetching)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 3. Features
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+- **Manager Dashboard**
+  - View all properties and their reviews
+  - Average rating per property
+  - Category-wise scores (Cleanliness, Communication, House Rules)
+  - Filter by rating, category, channel, or date
+  - Sort reviews by latest or oldest
+  - Toggle review visibility (public/private)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Review Display Page**
+  - Dedicated section for selected reviews
+  - Shows only approved reviews
+  - Mirrors property details layout
+  - Displays property images, amenities, and policies
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 4. Folder Structure
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+/frontend
+├─ src/
+│ ├─ components/
+│ │ ├─ PropertyCard.jsx
+│ │ ├─ CardReview.jsx
+│ │ └─ SortingHeader.jsx
+│ ├─ pages/
+│ │ ├─ Dashboard.jsx
+│ │ └─ ReviewDetails.jsx
+│ ├─ redux/
+│ │ ├─ store.js
+│ │ └─ reviewSlice.js
+│ └─ App.jsx
+└─ tailwind.config.js
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+---
+
+## 5. Setup Instructions
+
+1. Clone the repository:
+   Git Clone `https://github.com/Emmykage/flexiLiving_frontend.git`
+
+2. Navigate to frontend folder:
+   ```bash
+   cd frontend
+   ```
+
+Install dependencies:
+
+npm install
+
+Start the React app:
+
+npm run dev
+
+Access dashboard at http://localhost:5173
+
+6. Design & Logic Decisions
+
+Normalized review data fetched from backend for easy rendering
+
+Redux store manages both raw and normalized review data
+
+Dynamic filtering supports rating, category, channel, and time
+
+Tailwind CSS for consistent, modern UI
+
+Framer Motion Library for Extra Effects
+
+Review toggle updates state in Redux and affects dashboard & public view
+
+7. Notes
+
+Mocked Hostaway API data is used
+
+Google Reviews exploration is optional but documented
+
+All frontend components are reusable and maintainable
