@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store/configureStore.js";
 // import store from './redux/store/configureStore.js'
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>

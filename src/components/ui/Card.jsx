@@ -1,13 +1,7 @@
-import type { ReactNode } from "react";
-
 const Card = ({
   title,
   children,
   onClick,
-}: {
-  title: string;
-  children: ReactNode;
-  onClick: () => void;
 }) => {
   return (
     <div
