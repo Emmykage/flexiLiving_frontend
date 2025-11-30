@@ -31,7 +31,6 @@ const Nav = () => {
           ))}
         </nav>
 
-        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-2xl text-gray-700"
           onClick={() => setIsOpen(!isOpen)}

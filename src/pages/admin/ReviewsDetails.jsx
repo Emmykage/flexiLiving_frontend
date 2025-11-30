@@ -17,15 +17,14 @@ const ReviewDetails = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg mt-10">
-      {/* Header */}
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg border border-gray-400 mt-10">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Review Details</h1>
         <button
           onClick={togglePublic}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-300 ${
             review?.status === "published"
-              ? "bg-green-500 hover:bg-green-600"
+              ? "bg-green-800 hover:bg-green-600"
               : "bg-gray-400 hover:bg-gray-500"
           }`}
         >

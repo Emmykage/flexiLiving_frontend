@@ -52,6 +52,13 @@ function App() {
               <AdminProperties />
             </Layout>
           }
+        /> <Route
+          path="/admin/properties/:id"
+          element={
+            <Layout>
+              <AdminPropertyDetails />
+            </Layout>
+          }
         />
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/" element={<LandingHome />} />

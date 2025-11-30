@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardHeader from "../../components/dashboardHeader/dashboardHeader";
 import Button from "../../components/ui/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   const [properties, setProperties] = useState([]);
@@ -55,7 +56,8 @@ const ReviewCard = ({ review, onToggle }) => {
 };
 
 const PropertyCard = ({ property, onView }) => {
-  const { image_urls, listingName, reviews } = property;
+  const navigate = useNavigate()
+  const { image_urls, listingName, reviews, listingId } = property;
   const avgRating =
     property.reviews.reduce((sum, r) => sum + (r.rating ?? 0), 0) /
     property.reviews.length;
@@ -86,11 +88,9 @@ const PropertyCard = ({ property, onView }) => {
         />
       </div>
 
-      {/* CONTENT */}
       <div className="p-5 space-y-3">
-        {/* TITLE */}
         <h3 className="text-xl font-bold text-gray-900">{listingName}</h3>
-        {/* RATING */}
+
         <div className="flex items-center gap-2">
           <div className="flex text-yellow-400">
             {Array.from({ length: 5 }, (_, i) => (
@@ -101,9 +101,8 @@ const PropertyCard = ({ property, onView }) => {
             {avgRating.toFixed(1)} • {reviews.length} reviews
           </p>
         </div>
-        {/* BUTTON */}
-        <Button onClick={() => onView(property)} className="mt-4">
-          View Details
+        <Button onClick={() => navigate(`/admin/properties/${listingId}`)} className="mt-4">
+          View Detail
         </Button>{" "}
       </div>
     </div>

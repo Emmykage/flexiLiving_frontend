@@ -24,7 +24,7 @@ const Properties = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-2 py-4 space-y-6">
       <h1 className="text-3xl font-bold mb-4">Manager Dashboard</h1>
 
       <div className="p-6 bg-gray-50 min-h-screen">

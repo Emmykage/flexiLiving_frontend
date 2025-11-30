@@ -37,10 +37,10 @@ const ReviewsPage = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="py-6 space-y-6">
       <h1 className="text-3xl font-bold mb-4">All Reviews </h1>
 
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p- bg-gray-50 min-h-screen">
         <SortingHeader onFilterChange={handleFilterChange} />
         {/* <Sort  */}
         <div className="grid md:grid-cols-2 gap-6">

@@ -1,95 +1,157 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { FiStar } from "react-icons/fi";
 
-const AminPropertyDetails = () => {
-  const [reviews, setReviews] = useState([]);
+const AdminPropertyDetails = () => {
+  const { listing } = useSelector((state) => state.reviews);
+  const { id } = useParams();
 
-  const mockProperty = {
-    id: "2B-N1-A",
-    name: "2B N1 A - 29 Shoreditch Heights",
-    images: [
-      "https://hostaway-platform.s3.us-west-2.amazonaws.com/listing/23248-171145-d2d1AA---QmmZ9--jdAE2EAoC8VQkp3SRiAKwgxPhgPuc-68e7e2372f81a",
-      "https://hostaway-platform.s3.us-west-2.amazonaws.com/listing/23248-171145-7BQqx0V5WtAZ25sBgmZIPj0GEEelcOfWW1BT---fY7wU-68e7e23e9fbf1",
-    ],
-    description: "Cozy 1-bedroom apartment with all amenities included.",
-    amenities: ["WiFi", "Cable TV", "Parking"],
-  };
+  const property = listing.find((p) => p.listingId === id);
+  if (!property) return <p className="text-center mt-10">Property not found</p>;
 
-  const mockReviews = [
-    {
-      id: 7453,
-      reviewer: "Shane Finkelstein",
-      review: "Shane and family are wonderful!",
-      rating: 4.8,
-      public: true,
-    },
-    {
-      id: 7454,
-      reviewer: "Jane Doe",
-      review: "Great place, very clean!",
-      rating: 5,
-      public: false,
-    },
-  ];
+  const reviews = property.reviews || [];
+  const avgRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((sum, r) => sum + (r.rating ?? 0), 0) / reviews.length
+        ).toFixed(1)
+      : "N/A";
 
-  useEffect(() => {
-    setReviews(mockReviews);
-  }, []);
+ const categoryRatings = {};
+  const categories = ["cleanliness", "communication", "respect_house_rules"];
+  categories.forEach((cat) => {
+    const catRatings = reviews
+      .map((r) => r.categories?.[cat])
+      .filter((r) => r !== undefined);
+    categoryRatings[cat] =
+      catRatings.length > 0
+        ? (catRatings.reduce((a, b) => a + b, 0) / catRatings.length).toFixed(1)
+        : "N/A";
+  });
 
-  const togglePublic = (id) => {
-    setReviews((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, public: !r.public } : r)),
-    );
-  };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">{mockProperty.name}</h1>
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
 
-      {/* Images */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
-        {mockProperty.images.map((img, i) => (
-          <img key={i} src={img} alt={`Property ${i}`} className="rounded-lg" />
+      <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center">
+        <h1 className="text-3xl font-bold text-gray-800">{property.listingName}</h1>
+        <div className="flex items-center gap-2 mt-2 md:mt-0">
+          <FiStar className="text-yellow-500 text-xl" />
+          <span className="font-semibold text-gray-700">{avgRating}</span>
+          <span className="text-gray-500">({reviews.length} reviews)</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {property.image_urls?.map((url, idx) => (
+          <img
+            key={idx}
+            src={url}
+            alt={`Property image ${idx + 1}`}
+            className="w-full h-48 md:h-64 object-cover rounded-lg shadow-sm"
+          />
         ))}
       </div>
 
-      {/* Description */}
-      <p className="text-gray-700 mb-4">{mockProperty.description}</p>
+      <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 space-y-4">
+        <h2 className="text-2xl font-semibold text-gray-800">About this property</h2>
+        <p className="text-gray-600">{property.propertyDetails}</p>
 
-      {/* Amenities */}
-      <div className="flex gap-2 flex-wrap mb-6">
-        {mockProperty.amenities.map((a, i) => (
-          <span key={i} className="bg-gray-200 px-3 py-1 rounded">
-            {a}
-          </span>
-        ))}
-      </div>
-
-      {/* Reviews */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
-        {reviews.map((review) => (
-          <div
-            key={review.id}
-            className="p-4 mb-4 bg-white rounded-xl shadow flex justify-between items-center"
-          >
-            <div>
-              <p className="font-semibold">{review.reviewer}</p>
-              <p className="text-gray-600">{review.review}</p>
-              <p className="text-gray-500 text-sm">Rating: {review.rating}</p>
-            </div>
-            <button
-              onClick={() => togglePublic(review.id)}
-              className={`p-2 rounded ${
-                review.public ? "bg-green-500 text-white" : "bg-gray-200"
-              }`}
-            >
-              {review.public ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-            </button>
+        {property.amenities?.length > 0 && (
+          <div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Amenities</h3>
+            <ul className="flex flex-wrap gap-2">
+              {property.amenities.map((a, idx) => (
+                <li
+                  key={idx}
+                  className="px-3 py-1 bg-gray-100 rounded-full text-gray-700 text-sm"
+                >
+                  {a}
+                </li>
+              ))}
+            </ul>
           </div>
-        ))}
+        )}
+
+        <div>
+          <h1>Performances</h1>
+
+           <div className="flex items-center gap-2">
+          <div className="flex text-yellow-400">
+            {Array.from({ length: 5 }, (_, i) => (
+              <span key={i}>{i < Math.round(avgRating) ? "★" : "☆"}</span>
+            ))}
+          </div>
+          {/* <p className="text-gray-600 text-sm">
+            {avgRating?.toFixed(1)} • {reviews.length} reviews
+          </p> */}
+        </div>
+        </div>
+
+      <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 space-y-4">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Property Performance
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 bg-gray-50 rounded-lg text-center shadow-sm">
+            <p className="font-semibold text-gray-700">Average Rating</p>
+            <p className="text-yellow-500 text-xl flex items-center justify-center gap-1">
+              <FiStar /> {avgRating}
+            </p>
+          </div>
+          <div className="p-4 bg-gray-50 rounded-lg text-center shadow-sm">
+            <p className="font-semibold text-gray-700">Total Reviews</p>
+            <p className="text-gray-700 text-xl">{reviews.length}</p>
+          </div>
+          {Object.entries(categoryRatings).map(([cat, rating]) => (
+            <div key={cat} className="p-4 bg-gray-50 rounded-lg text-center shadow-sm">
+              <p className="font-semibold text-gray-700">{cat.replace("_", " ")}</p>
+              <p className="text-gray-700 text-xl">{rating}</p>
+            </div>
+          ))}
+        </div>
       </div>
+
+        {property.policies && (
+          <div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Policies</h3>
+            <p className="text-gray-600">Check-in: {property.policies.checkIn}</p>
+            <p className="text-gray-600">Check-out: {property.policies.checkOut}</p>
+            {property.policies.houseRules?.length > 0 && (
+              <ul className="list-disc list-inside text-gray-600 mt-1">
+                {property.policies.houseRules.map((rule, idx) => (
+                  <li key={idx}>{rule}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
+
+      {reviews.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-gray-800">Reviews</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            {reviews.map((review) => (
+              <div
+                key={review.id}
+                className="p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <p className="font-semibold text-gray-700">{review.reviewer}</p>
+                  <span className="flex items-center gap-1 text-yellow-500">
+                    <FiStar /> {review.rating ?? "N/A"}
+                  </span>
+                </div>
+                <p className="text-gray-600 text-sm">{review.review}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AminPropertyDetails;
+export default AdminPropertyDetails;
