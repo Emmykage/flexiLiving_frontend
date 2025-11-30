@@ -2,7 +2,7 @@
 
 
 export const baseUrl =
-  import.meta.env.VITE_APP_DEV_BASE_URL ?? "https://flex-living-backend-js.onrender.com/"
+  import.meta.env.VITE_APP_DEV_BASE_URL ?? "https://flexliving-b11f9136ef82.herokuapp.com/"
 
 export const apiRoute = "api/";
 
